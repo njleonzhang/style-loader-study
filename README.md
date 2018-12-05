@@ -97,4 +97,18 @@ exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\n", ""]);
  node --inspect-brk  node_modules/webpack-cli/bin/cli.js --config webpack.config.js
 ```
 
-* NIM 的调试模式会自动打开一个 chrome 窗口，并断点在
+* NIM 的调试模式会自动打开一个 chrome 窗口，并断点在代码的入口:
+
+```
+file:///Users/leon/Documents/localCode/style-loader-test/node_modules/_webpack-cli@3.1.2@webpack-cli/bin/cli.js
+```
+
+![](https://raw.githubusercontent.com/njleonzhang/image-bed/master/assets/4156a284-28c3-b8d3-5173-fb7ec1f5a3f6.png)
+> 上图中第一个目录下只有一个 cli.js 文件
+
+如果我们想要调试 webpack loader 或者 plugin 的代码，此时会发现，其代码并没有被加载，也就无法打断点。我们可以通过下面的小技巧来解决:
+
+我们发现在当前 `cli.js` 中有一个 `compilerCallback` 函数，我们在该函数的第一行设置一个断点，然后让程序执行, 当程序断下来之后, 我们则可以在 file 里找到我们需要调试的 loader 和 plugin 代码了。明显 `compilerCallback` 的调用发生在 webpack 编译之后, 这个时候 loader 和 plugin 代码必定已经被加载过了，所以我们在这个地方能够找到 loader 和 plugin 代码，然后去设置断点。断点设置好后，我们重启 webpack 的编译就可以让程序断到我们想要的地方了。
+
+![](https://raw.githubusercontent.com/njleonzhang/image-bed/master/assets/50cb25eb-8552-c145-af93-1e463b435315.png)
+> 啥都有了，去找想要打断点的文件吧。
