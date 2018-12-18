@@ -38,6 +38,8 @@ function __webpack_require__(moduleId) {
 
 style-loader 是一个 pitch loader, 主要是处理了把 css 添加为页面的 style 标签, 以及处理 css 的 [hot reload](https://github.com/webpack-contrib/style-loader/blob/fc24512b395a8a3fd4074d88cd3f7b195f0bcef2/index.js)
 
+> 关于源码中的 `!!`, 一直不明白啥意思, 我还特地写了提了一个 [issue](https://github.com/webpack-contrib/style-loader/issues/354) 去问 style-loader 的作者. 虽然还是不是特别清楚，但至少知道，它用于跳过 loader 的处理，但是当 pitch loader 有 return 值得时候, 不是天生会跳过 loader 后续 loader 的处理么, 难道这里加 `!!` 能跳过更多？
+
 `pitch loader` 与文件的内容无关(从 `module.exports.pitch` 函数只有一个 `request` 参数也能看得出这一点)，所以只与模块 id 有关，所以即使文件变化了, 也不需要修改。这就为 hot reload 的处理提供了一个容器。
 
 > 关于 pitch loader, refer to [the issue](https://github.com/webpack/webpack/issues/360)
